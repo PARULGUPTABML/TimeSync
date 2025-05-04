@@ -112,7 +112,7 @@ public class AddTaskActivity extends AppCompatActivity {
             
             if (itemId == R.id.nav_home) {
                 // Navigate to home
-                Intent intent = new Intent(AddTaskActivity.this, MainActivity.class);
+                Intent intent = new Intent(AddTaskActivity.this, HomeActivity.class);
                 startActivity(intent);
                 finish();
                 return true;
@@ -234,7 +234,7 @@ public class AddTaskActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
                     
             // Return to the main activity
-            Intent intent = new Intent(AddTaskActivity.this, ActivitiesActivity.class);
+            Intent intent = new Intent(AddTaskActivity.this, HomeActivity.class);
             startActivity(intent);
             finish();
         });

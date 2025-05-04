@@ -57,7 +57,7 @@ public class CategoriesActivity extends AppCompatActivity {
             
             if (itemId == R.id.nav_home) {
                 // Navigate to home
-                Intent intent = new Intent(CategoriesActivity.this, MainActivity.class);
+                Intent intent = new Intent(CategoriesActivity.this, HomeActivity.class);
                 startActivity(intent);
                 finish();
                 return true;

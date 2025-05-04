@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 
-public class ActivitiesActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,19 +87,19 @@ public class ActivitiesActivity extends AppCompatActivity {
     
     // Method to navigate to Categories page
     private void navigateToCategories() {
-        Intent intent = new Intent(ActivitiesActivity.this, CategoriesActivity.class);
+        Intent intent = new Intent(HomeActivity.this, CategoriesActivity.class);
         startActivity(intent);
     }
     
     // Method to navigate to Add Task page
     private void navigateToAddTask() {
-        Intent intent = new Intent(ActivitiesActivity.this, AddTaskActivity.class);
+        Intent intent = new Intent(HomeActivity.this, AddTaskActivity.class);
         startActivity(intent);
     }
     
     // Method to navigate to Schedule page
     private void navigateToSchedule() {
-        Intent intent = new Intent(ActivitiesActivity.this, ScheduleActivity.class);
+        Intent intent = new Intent(HomeActivity.this, ScheduleActivity.class);
         startActivity(intent);
     }
 } 
