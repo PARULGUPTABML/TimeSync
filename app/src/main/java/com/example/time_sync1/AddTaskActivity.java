@@ -1,20 +1,34 @@
 package com.example.time_sync1;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 public class AddTaskActivity extends AppCompatActivity {
 
     private TextView classButton, examButton, labButton, assignmentButton, presentationButton;
+    private CardView subjectSelection, dateSelection, timeSelection;
+    private Button addTaskButton;
+    private TextView dateText, timeText;
+    private Calendar selectedDate = Calendar.getInstance();
     private String selectedCategory = "Class"; // Default category
+    private String selectedSubject = "Biology"; // Default subject
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +52,12 @@ public class AddTaskActivity extends AppCompatActivity {
         
         // Setup category selection
         setupCategorySelection();
+        
+        // Setup date and time pickers
+        setupDateTimePickers();
+        
+        // Setup add task button
+        setupAddTaskButton();
     }
 
     private void initViews() {
@@ -46,6 +66,15 @@ public class AddTaskActivity extends AppCompatActivity {
         labButton = findViewById(R.id.labButton);
         assignmentButton = findViewById(R.id.assignmentButton);
         presentationButton = findViewById(R.id.presentationButton);
+        
+        subjectSelection = findViewById(R.id.subjectSelection);
+        dateSelection = findViewById(R.id.dateSelection);
+        timeSelection = findViewById(R.id.timeSelection);
+        
+        dateText = findViewById(R.id.dateText);
+        timeText = findViewById(R.id.timeText);
+        
+        addTaskButton = findViewById(R.id.addTaskButton);
     }
 
     private void setupTabLayout() {
@@ -115,6 +144,13 @@ public class AddTaskActivity extends AppCompatActivity {
         labButton.setOnClickListener(v -> updateCategorySelection(labButton));
         assignmentButton.setOnClickListener(v -> updateCategorySelection(assignmentButton));
         presentationButton.setOnClickListener(v -> updateCategorySelection(presentationButton));
+        
+        // Setup subject selection
+        subjectSelection.setOnClickListener(v -> {
+            // This would typically open a subject selection dialog
+            // For now, we'll just show a toast
+            Toast.makeText(AddTaskActivity.this, "Subject selection clicked", Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void updateCategorySelection(TextView selected) {
@@ -130,5 +166,77 @@ public class AddTaskActivity extends AppCompatActivity {
         
         // Store the selected category
         selectedCategory = selected.getText().toString();
+    }
+    
+    private void setupDateTimePickers() {
+        // Format and display the current date and time
+        updateDateDisplay();
+        updateTimeDisplay();
+        
+        // Setup date picker
+        dateSelection.setOnClickListener(v -> {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    AddTaskActivity.this,
+                    (view, year, month, dayOfMonth) -> {
+                        // Update selected date
+                        selectedDate.set(Calendar.YEAR, year);
+                        selectedDate.set(Calendar.MONTH, month);
+                        selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        
+                        // Update the display
+                        updateDateDisplay();
+                    },
+                    selectedDate.get(Calendar.YEAR),
+                    selectedDate.get(Calendar.MONTH),
+                    selectedDate.get(Calendar.DAY_OF_MONTH)
+            );
+            datePickerDialog.show();
+        });
+        
+        // Setup time picker
+        timeSelection.setOnClickListener(v -> {
+            TimePickerDialog timePickerDialog = new TimePickerDialog(
+                    AddTaskActivity.this,
+                    (view, hourOfDay, minute) -> {
+                        // Update selected time
+                        selectedDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        selectedDate.set(Calendar.MINUTE, minute);
+                        
+                        // Update the display
+                        updateTimeDisplay();
+                    },
+                    selectedDate.get(Calendar.HOUR_OF_DAY),
+                    selectedDate.get(Calendar.MINUTE),
+                    false
+            );
+            timePickerDialog.show();
+        });
+    }
+    
+    private void updateDateDisplay() {
+        // Format: Fri 25, September, 2020
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE dd, MMMM, yyyy", Locale.getDefault());
+        dateText.setText(dateFormat.format(selectedDate.getTime()));
+    }
+    
+    private void updateTimeDisplay() {
+        // Format: 09:30 AM
+        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+        timeText.setText(timeFormat.format(selectedDate.getTime()));
+    }
+    
+    private void setupAddTaskButton() {
+        addTaskButton.setOnClickListener(v -> {
+            // Save the task to database or SharedPreferences
+            // For now, just show a toast and go back to the main screen
+            Toast.makeText(AddTaskActivity.this, 
+                    "Task added: " + selectedCategory + " - " + selectedSubject, 
+                    Toast.LENGTH_SHORT).show();
+                    
+            // Return to the main activity
+            Intent intent = new Intent(AddTaskActivity.this, ActivitiesActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 } 
