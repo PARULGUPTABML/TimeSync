@@ -1,7 +1,9 @@
 package com.example.time_sync1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -52,13 +54,14 @@ public class ActivitiesActivity extends AppCompatActivity {
             int itemId = item.getItemId();
             
             if (itemId == R.id.nav_home) {
-                // Navigate to home
+                // Already on home
                 return true;
             } else if (itemId == R.id.nav_calendar) {
                 // Navigate to calendar
                 return true;
             } else if (itemId == R.id.nav_add) {
-                // Open add dialog
+                // Navigate to add task
+                navigateToAddTask();
                 return true;
             } else if (itemId == R.id.nav_messages) {
                 // Navigate to messages
@@ -70,5 +73,25 @@ public class ActivitiesActivity extends AppCompatActivity {
             
             return false;
         });
+        
+        // Add click listener to "Running Subjects" text to navigate to Categories
+        TextView runningSubjectsTitle = findViewById(R.id.runningSubjectsTitle);
+        if (runningSubjectsTitle != null) {
+            runningSubjectsTitle.setOnClickListener(v -> {
+                navigateToCategories();
+            });
+        }
+    }
+    
+    // Method to navigate to Categories page
+    private void navigateToCategories() {
+        Intent intent = new Intent(ActivitiesActivity.this, CategoriesActivity.class);
+        startActivity(intent);
+    }
+    
+    // Method to navigate to Add Task page
+    private void navigateToAddTask() {
+        Intent intent = new Intent(ActivitiesActivity.this, AddTaskActivity.class);
+        startActivity(intent);
     }
 } 
